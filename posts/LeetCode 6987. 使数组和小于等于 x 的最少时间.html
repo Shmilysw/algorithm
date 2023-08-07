@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>LeetCode 6987. 使数组和小于等于 x 的最少时间 | Shmilysw</title>
+    <meta name="description" content="A VitePress site">
+    <link rel="preload stylesheet" href="/algorithm/assets/style.b9761d91.css" as="style">
+    
+    <script type="module" src="/algorithm/assets/app.d8aaad95.js"></script>
+    <link rel="modulepreload" href="/algorithm/assets/chunks/framework.0f10bb36.js">
+    <link rel="modulepreload" href="/algorithm/assets/posts_LeetCode 6987. 使数组和小于等于 x 的最少时间.md.ac2cdff0.lean.js">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif+SC">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css">
+    <script id="check-dark-light">(()=>{const e=localStorage.getItem("vitepress-theme-appearance")||"",a=window.matchMedia("(prefers-color-scheme: dark)").matches;(!e||e==="auto"?a:e==="dark")&&document.documentElement.classList.add("dark")})();</script>
+  </head>
+  <body>
+    <div id="app"><!--[--><header><span class="brand"></span><span class="container"><span class="menu"><ul><!--[--><li><a href="/algorithm/"><span><i class="fa fa-home"></i> 首页</span></a></li><li><a href="/algorithm/tags/"><span><i class="fa fa-tag"></i> 标签</span></a></li><li><a href="/algorithm/readme.html"><span><i class="fa fa-leaf"></i> 关于</span></a></li><!--]--></ul></span></span><div class="search-box"><a class="search"><input value=""></a></div></header><aside></aside><main><a href="#" class="totop" style="top:-900px;" aria-label="to-top"></a><!--[--><!----><div class="article"><div style="position:relative;" class="content"><div><hr><h2 id="dp" tabindex="-1">dp <a class="header-anchor" href="#dp" aria-label="Permalink to &quot;dp&quot;">​</a></h2><h2 id="leetcode-6987-使数组和小于等于-x-的最少时间" tabindex="-1"><a href="https://leetcode.cn/problems/minimum-time-to-make-array-sum-at-most-x/" target="_blank" rel="noreferrer">LeetCode 6987. 使数组和小于等于 x 的最少时间</a> <a class="header-anchor" href="#leetcode-6987-使数组和小于等于-x-的最少时间" aria-label="Permalink to &quot;[LeetCode 6987. 使数组和小于等于 x 的最少时间](https://leetcode.cn/problems/minimum-time-to-make-array-sum-at-most-x/)&quot;">​</a></h2><!----><p>给你两个长度相等下标从 0 开始的整数数组 nums1 和 nums2 。每一秒，对于所有下标 0 &lt;= i &lt; nums1.length ，nums1[i] 的值都增加 nums2[i] 。操作 完成后 ，你可以进行如下操作：</p><ul><li>选择任一满足 0 &lt;= i &lt; nums1.length 的下标 i ，并使 nums1[i] = 0 。 同时给你一个整数 x 。</li></ul><p>请你返回使 nums1 中所有元素之和 小于等于 x 所需要的 最少 时间，如果无法实现，那么返回 -1 。</p><h3 id="示例-1" tabindex="-1">示例 1： <a class="header-anchor" href="#示例-1" aria-label="Permalink to &quot;示例 1：&quot;">​</a></h3><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki light-plus"><code><span class="line"><span style="color:#000000;">输入：nums1 = [1,2,3], nums2 = [1,2,3], x = 4</span></span>
+<span class="line"><span style="color:#000000;">输出：3</span></span>
+<span class="line"><span style="color:#000000;">解释：</span></span>
+<span class="line"><span style="color:#000000;">第 1 秒，我们对 i = 0 进行操作，得到 nums1 = [0,2+2,3+3] = [0,4,6] 。</span></span>
+<span class="line"><span style="color:#000000;">第 2 秒，我们对 i = 1 进行操作，得到 nums1 = [0+1,0,6+3] = [1,0,9] 。</span></span>
+<span class="line"><span style="color:#000000;">第 3 秒，我们对 i = 2 进行操作，得到 nums1 = [1+1,0+2,0] = [2,2,0] 。</span></span>
+<span class="line"><span style="color:#000000;">现在 nums1 的和为 4 。不存在更少次数的操作，所以我们返回 3 。</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><h3 id="示例-2" tabindex="-1">示例 2： <a class="header-anchor" href="#示例-2" aria-label="Permalink to &quot;示例 2：&quot;">​</a></h3><div class="language- line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki light-plus"><code><span class="line"><span style="color:#000000;">输入：nums1 = [1,2,3], nums2 = [3,3,3], x = 4</span></span>
+<span class="line"><span style="color:#000000;">输出：-1</span></span>
+<span class="line"><span style="color:#000000;">解释：不管如何操作，nums1 的和总是会超过 x 。</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="提示" tabindex="-1">提示： <a class="header-anchor" href="#提示" aria-label="Permalink to &quot;提示：&quot;">​</a></h3><ul><li>1 &lt;= nums1.length &lt;= 10^3</li><li>1 &lt;= nums1[i] &lt;= 10^3</li><li>0 &lt;= nums2[i] &lt;= 10^3</li><li>nums1.length == nums2.length</li><li>0 &lt;= x &lt;= 10^6</li></ul><div class="language-python line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang">python</span><pre class="shiki light-plus"><code><span class="line"><span style="color:#008000;">&quot;&quot;&quot;</span></span>
+<span class="line"><span style="color:#008000;">如何比较两种方案的优劣？</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#008000;">1. 答案最大是多少？  n</span></span>
+<span class="line"><span style="color:#008000;">2. 从小到大枚举答案</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#008000;">t=1 选一个当前最高的，收菜</span></span>
+<span class="line"><span style="color:#008000;">t=2 比较相对值，比算绝对值要方便</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#008000;">s1 = sum(nums1)</span></span>
+<span class="line"><span style="color:#008000;">s2 = sum(nums2)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#008000;">按照 nums2 从小到大排序，nums2 越小的，越早操作</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#008000;">第 t 秒，不做任何操作，元素和是 s1 + s2 * t</span></span>
+<span class="line"><span style="color:#008000;">从 s1 + s2 * t 减去最大的</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#008000;">从 nums1 中选一个长度为 t 的子序列，子序列的第一个数变成 nums1[i]+nums2[i]</span></span>
+<span class="line"><span style="color:#008000;">第 j 个数变成 nums1[i] + j*nums2[i]</span></span>
+<span class="line"><span style="color:#008000;">最大化子序列改变后的元素和</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#008000;">选或不选</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#008000;">f[i+1][j] 前 i 个数中，选长为 j 的子序列，改变后的元素和的最大值</span></span>
+<span class="line"><span style="color:#008000;">不选 f[i+1][j] = f[i][j]</span></span>
+<span class="line"><span style="color:#008000;">选   f[i+1][j] = f[i][j-1] + nums1[i] + j * nums2[i]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#008000;">f[j] = 0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#008000;">f[j] = max(f[j], f[j-1] + nums1[i] + j * nums2[i])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#008000;">if s1 + s2 * t - f[n][t] &lt;= x:</span></span>
+<span class="line"><span style="color:#008000;">    return t</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#008000;">&quot;&quot;&quot;</span></span>
+<span class="line"><span style="color:#0000FF;">class</span><span style="color:#000000;"> </span><span style="color:#267F99;">Solution</span><span style="color:#000000;">:</span></span>
+<span class="line"><span style="color:#000000;">    </span><span style="color:#0000FF;">def</span><span style="color:#000000;"> </span><span style="color:#795E26;">minimumTime</span><span style="color:#000000;">(</span><span style="color:#001080;">self</span><span style="color:#000000;">, </span><span style="color:#001080;">nums1</span><span style="color:#000000;">: List[</span><span style="color:#267F99;">int</span><span style="color:#000000;">], </span><span style="color:#001080;">nums2</span><span style="color:#000000;">: List[</span><span style="color:#267F99;">int</span><span style="color:#000000;">], </span><span style="color:#001080;">x</span><span style="color:#000000;">: </span><span style="color:#267F99;">int</span><span style="color:#000000;">) -&gt; </span><span style="color:#267F99;">int</span><span style="color:#000000;">:</span></span>
+<span class="line"><span style="color:#000000;">        n = </span><span style="color:#795E26;">len</span><span style="color:#000000;">(nums1)</span></span>
+<span class="line"><span style="color:#000000;">        f = [</span><span style="color:#098658;">0</span><span style="color:#000000;">] * (n + </span><span style="color:#098658;">1</span><span style="color:#000000;">)</span></span>
+<span class="line"><span style="color:#000000;">        </span><span style="color:#AF00DB;">for</span><span style="color:#000000;"> a, b </span><span style="color:#AF00DB;">in</span><span style="color:#000000;"> </span><span style="color:#795E26;">sorted</span><span style="color:#000000;">(</span><span style="color:#795E26;">zip</span><span style="color:#000000;">(nums1, nums2), </span><span style="color:#001080;">key</span><span style="color:#000000;">=</span><span style="color:#0000FF;">lambda</span><span style="color:#000000;"> </span><span style="color:#001080;">z</span><span style="color:#000000;">: z[</span><span style="color:#098658;">1</span><span style="color:#000000;">]):</span></span>
+<span class="line"><span style="color:#000000;">            </span><span style="color:#AF00DB;">for</span><span style="color:#000000;"> j </span><span style="color:#AF00DB;">in</span><span style="color:#000000;"> </span><span style="color:#795E26;">range</span><span style="color:#000000;">(n, </span><span style="color:#098658;">0</span><span style="color:#000000;">, -</span><span style="color:#098658;">1</span><span style="color:#000000;">):</span></span>
+<span class="line"><span style="color:#000000;">                f[j] = </span><span style="color:#795E26;">max</span><span style="color:#000000;">(f[j], f[j-</span><span style="color:#098658;">1</span><span style="color:#000000;">] + a + j * b)</span></span>
+<span class="line"><span style="color:#000000;">        </span></span>
+<span class="line"><span style="color:#000000;">        s1 = </span><span style="color:#795E26;">sum</span><span style="color:#000000;">(nums1)</span></span>
+<span class="line"><span style="color:#000000;">        s2 = </span><span style="color:#795E26;">sum</span><span style="color:#000000;">(nums2)</span></span>
+<span class="line"><span style="color:#000000;">        </span><span style="color:#AF00DB;">for</span><span style="color:#000000;"> t </span><span style="color:#AF00DB;">in</span><span style="color:#000000;"> </span><span style="color:#795E26;">range</span><span style="color:#000000;">(n + </span><span style="color:#098658;">1</span><span style="color:#000000;">):</span></span>
+<span class="line"><span style="color:#000000;">            </span><span style="color:#AF00DB;">if</span><span style="color:#000000;"> s1 + s2 * t - f[t] &lt;= x:</span></span>
+<span class="line"><span style="color:#000000;">                </span><span style="color:#AF00DB;">return</span><span style="color:#000000;"> t</span></span>
+<span class="line"><span style="color:#000000;">        </span><span style="color:#AF00DB;">return</span><span style="color:#000000;"> -</span><span style="color:#098658;">1</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br></div></div></div></div><div class="content nav"><span><a href=""><i class="fa fa-angle-left"></i> </a></span><span><a href=""> <i class="fa fa-angle-right"></i></a></span></div><!----><div class="toc"><ol><!--[--><!--]--></ol></div></div><!--]--></main><!--]--></div>
+    <script>window.__VP_HASH_MAP__=JSON.parse("{\"posts_acwing 285. 没有上司的舞会.md\":\"d3b2932d\",\"readme.md\":\"f1ec09a9\",\"index.md\":\"9e1d57ab\",\"tags_index.md\":\"bd321ba4\",\"posts_leetcode 6987. 使数组和小于等于 x 的最少时间.md\":\"ac2cdff0\",\"posts_leetcode 2281. 巫师的总力量和.md\":\"43fc5dac\",\"posts_leetcode 2569. 更新数组后处理求和查询.md\":\"7d4c9c70\",\"posts_leetcode 2719. 统计整数数目.md\":\"2f156692\",\"posts_leetcode 337. 打家劫舍 iii.md\":\"07e74003\",\"posts_leetcode 2376. 统计特殊整数.md\":\"430065c8\",\"posts_leetcode 834. 树中距离之和.md\":\"d9784c8c\",\"posts_leetcode 2801. 统计范围内的步进数字数目.md\":\"82907476\",\"posts_leetcode 2104. 子数组范围和.md\":\"1a0bde39\",\"posts_leetcode 2681. 英雄的力量.md\":\"dbfb9d26\",\"posts_模板.md\":\"9be69231\"}");window.__VP_SITE_DATA__=JSON.parse("{\"lang\":\"zh-CN\",\"dir\":\"ltr\",\"title\":\"Shmilysw\",\"description\":\"A VitePress site\",\"base\":\"/algorithm/\",\"head\":[],\"appearance\":true,\"themeConfig\":{\"name\":\"Shmilysw\",\"hello\":\"Hello,Shmilysw\",\"motto\":\"You got to put the past behind you before you can move on.\",\"cover\":\"https://cdn.acwing.com/media/article/image/2023/07/06/120382_4d4e1fd21b-wallhaven-ex9gwo_1920x1080.png\",\"social\":[{\"icon\":\"fa-github\",\"url\":\"https://github.com/Shmilysw\"}]},\"locales\":{},\"scrollOffset\":90,\"cleanUrls\":false}");</script>
+    
+  </body>
+</html>
